@@ -21,16 +21,17 @@ else
 
 VPATH = $(SRCDIR)
 
-CFLAGS   =  -Wall -g -fmessage-length=0 -pthread
+CFLAGS   =  -Wall -g -ggdb -fmessage-length=0 -pthread
 
-LDFLAGS  =  -Wall -g -fmessage-length=0 -pthread
+LDFLAGS  =  -Wall -g -ggdb -fmessage-length=0 -pthread
 			
 OBJS     =  \
+	stringc.o \
 	stringc_test.o
 			
 LIBS     =  -lpthread
 
-TARGET   =  ax25
+TARGET   =  stringc_test
 
 $(TARGET):  $(OBJS)
 	$(CC) $(LDFLAGS) -o $(TARGET) $(OBJS) $(LIBS)
