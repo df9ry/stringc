@@ -18,30 +18,45 @@
 #ifndef STRINGC_STRINGC_H_
 #define STRINGC_STRINGC_H_
 
+/** @file */
+
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * @brief Strings that does not exceed this size (including '\0') are stored
+ * inside.
+ */
 #define STRINGC_S_BUFFER 16
 
+/**
+ * @brief Internal data structure to represent strings. Avoid to use it directly!
+ */
 struct string
 {
-	size_t cb;
+	size_t cb;                        /**< Number of bytes allocated in buffer. */
 	union
 	{
-		char  *pc;
-		char   str[STRINGC_S_BUFFER];
+		char  *pc;                    /**< Pointer to string when buffer is allocated. */
+		char   str[STRINGC_S_BUFFER]; /**< String content when no buffer is allocated. */
 	};
 };
 
 /**
- * Get C string pointer from a string.
- * @sc string object.
+ * @brief Get C string pointer from a string.
+ * @param sc string object.
+ * @return Pointer to C string.
  */
 static inline char* string_c(struct string* sc)
 {
 	return (sc)?((sc->cb)?sc->pc:sc->str):"";
 }
 
+/**
+ * @brief Get current length of the string.
+ * @param sc string object.
+ * @return length of the string.
+ */
 static inline size_t string_len(struct string* sc)
 {
 	return strlen(string_c(sc));
@@ -49,13 +64,15 @@ static inline size_t string_len(struct string* sc)
 
 /**
  * Allocate a new string as copy of a C string.
- * @c C string as initial value.
+ * @param c C string as initial value.
+ * @return New allocated string with value of 'c'
  */
 extern struct string* string_new_c(char* c);
 
 /**
- * Create duplicate of a string.
- * @sc Source string.
+ * @brief Create duplicate of a string.
+ * @param sc Source string.
+ * @return New allocated string with value of 'sc'.
  */
 static inline struct string* string_dup(struct string* sc)
 {
@@ -63,7 +80,8 @@ static inline struct string* string_dup(struct string* sc)
 }
 
 /**
- * Allocate a new empty string.
+ * @brief Allocate a new empty string.
+ * @return New allocated empty string.
  */
 static inline struct string* string_new(void)
 {
@@ -71,22 +89,22 @@ static inline struct string* string_new(void)
 }
 
 /**
- * Free a string.
- * @sc string to free.
+ * @brief Free a string.
+ * @param sc string to free.
  */
 extern void string_free(struct string* sc);
 
 /**
- * Assign C string to string.
- * @sc Target string.
- * @c C string to assign.
+ * @brief Assign C string to string.
+ * @param sc Target string.
+ * @param c C string to assign.
  */
 extern void string_set_c(struct string* sc, char* c);
 
 /**
- * Assign string to another string.
- * @st Target string.
- * @ss Source string.
+ * @brief Assign string to another string.
+ * @param st Target string.
+ * @param ss Source string.
  */
 static inline void string_set(struct string* st, struct string* ss)
 {
@@ -94,20 +112,20 @@ static inline void string_set(struct string* st, struct string* ss)
 }
 
 /**
- * Left trim a string in place.
- * @sc string object.
+ * @brief Left trim a string in place.
+ * @param sc string object.
  */
 extern void string_ltrim(struct string* sc);
 
 /**
- * Right trim a string in place.
- * @sc string object.
+ * @brief Right trim a string in place.
+ * @param sc string object.
  */
 extern void string_rtrim(struct string* sc);
 
 /**
- * Left and right trim a string in place.
- * @sc string object.
+ * @brief Left and right trim a string in place.
+ * @param sc string object.
  */
 static inline void string_trim(struct string* sc)
 {
@@ -116,16 +134,16 @@ static inline void string_trim(struct string* sc)
 }
 
 /**
- * Add a C string to a string.
- * @sc string object to append to.
- * @c C string to append.
+ * @brief Add a C string to a string.
+ * @param sc string object to append to.
+ * @param c C string to append.
  */
 extern void string_add_c(struct string* sc, char* c);
 
 /**
- * Add a string object to a string.
- * @sc string object to append to.
- * @s string object to append.
+ * @brief Add a string object to a string.
+ * @param sc string object to append to.
+ * @param s string object to append.
  */
 static inline void string_add(struct string* sc, struct string* s)
 {
@@ -133,10 +151,10 @@ static inline void string_add(struct string* sc, struct string* s)
 }
 
 /**
- * Cut a range out of a string.
- * @sc string object to cut from, in place.
- * @lpos, left position to start cut from. If negative, count from right.
- * @rpos, right position to cut before. If negative, count from right.
+ * @brief Cut a range out of a string.
+ * @param sc string object to cut from, in place.
+ * @param lpos left position to start cut from. If negative, count from right.
+ * @param rpos right position to cut before. If negative, count from right.
  */
 extern void string_range(struct string* sc, int lpos, int rpos);
 
