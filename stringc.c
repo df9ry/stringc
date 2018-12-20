@@ -41,6 +41,15 @@ struct string* string_new_c(char* c)
 	return s;
 }
 
+void __string_reset(struct string *sc)
+{
+	assert(sc);
+	if (sc->cb > 0) {
+		free(sc->pc);
+	}
+	STRING_INIT(*sc);
+}
+
 void string_free(struct string *sc)
 {
 	if (!sc)

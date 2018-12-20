@@ -24,6 +24,21 @@
 int main(int argc, char *argv[]) {
 
 	{
+		struct string s;
+
+		printf("Testing static string functions:\n");
+		STRING_INIT(s);
+		assert(s.cb == 0);
+		assert(string_len(&s) == 0);
+		string_set_c(&s, "1234567890abcdefghijklmnopqrstuvwxyz");
+		STRING_RESET(s);
+		assert(s.cb == 0);
+		assert(string_len(&s) == 0);
+
+		printf("OK\n");
+	}
+
+	{
 		struct string *s, *s2;
 
 		printf("Testing string_new...:\n");
