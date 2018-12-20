@@ -63,7 +63,7 @@ static inline char *string_c(struct string *sc)
  * @param sc string object.
  * @return Pointer to C string.
  */
-#define STRING_C(sc) string_c(*sc)
+#define STRING_C(sc) string_c(&sc)
 
 /**
  * @brief Get current length of the string.
@@ -80,7 +80,7 @@ static inline size_t string_len(struct string *sc)
  * @param sc string object.
  * @return length of the string.
  */
-#define STRING_LEN(sc) string_len(*sc)
+#define STRING_LEN(sc) string_len(&sc)
 
 /**
  * Allocate a new string as copy of a C string.
