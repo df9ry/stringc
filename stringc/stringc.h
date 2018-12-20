@@ -208,6 +208,20 @@ extern void string_add_c(struct string *sc, char *c);
 #define STRING_ADD_C(sc, c) string_add_c(&sc, c)
 
 /**
+ * @brief Add a char to a string.
+ * @param sc string object to append to.
+ * @param ch char to append.
+ */
+extern void string_add_char(struct string *sc, char ch);
+
+/**
+ * @brief Add a char to a string.
+ * @param sc string object to append to.
+ * @param ch char to append.
+ */
+#define STRING_ADD_CHAR(sc, ch) string_add_char(&sc, ch)
+
+/**
  * @brief Add a string object to a string.
  * @param sc string object to append to.
  * @param s string object to append.

@@ -109,6 +109,14 @@ void string_add_c(struct string* sc, char* c)
 	strcat(sc->pc, c);
 }
 
+void string_add_char(struct string* sc, char ch)
+{
+	char buf[2];
+	buf[0] = ch;
+	buf[1] = '\0';
+	string_add_c(sc, buf);
+}
+
 void string_ltrim(struct string* sc)
 {
 	assert(sc);

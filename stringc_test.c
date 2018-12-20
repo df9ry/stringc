@@ -137,6 +137,10 @@ int main(int argc, char *argv[]) {
 		string_add_c(s, "ABCDEFGHIJKLMNOP#");
 		assert(strcmp(string_c(s), "0123456789abcdef_ABCDEFGHIJKLMNOP#") == 0);
 
+		string_set_c(s, "0123456789abcdef_");
+		string_add_char(s, 'y');
+		assert(strcmp(string_c(s), "0123456789abcdef_y") == 0);
+
 		string_free(s);
 		printf("OK\n");
 	}
