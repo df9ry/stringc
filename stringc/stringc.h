@@ -15,10 +15,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @file
+ * @brief Use #include <stringc/stringc.h> to use this library.
+ */
+
 #ifndef STRINGC_STRINGC_H_
 #define STRINGC_STRINGC_H_
 
-/** @file */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <stdlib.h>
 #include <string.h>
@@ -253,5 +260,9 @@ extern void string_range(struct string *sc, int lpos, int rpos);
  * @param rpos right position to cut before. If negative, count from right.
  */
 #define STRING_RANGE(sc, lpos, rpos) string_range(&sc, lpos, rpos)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* STRINGC_STRINGC_H_ */
