@@ -51,14 +51,13 @@ test: $(TARGET)
 install: $(TARGET)
 ifeq ($(OS),Cygwin)
 	cp $(TARGET) /usr/local/lib
-	cp -rf ../stringc /usr/local/include
 else
-	sudo cp libstringc.so /usr/local/lib/libstringc.so.0.1.0
-	sudo chown root:staff /usr/local/lib/libstringc.so.0.1.0	
-	sudo chmod 0755       /usr/local/lib/libstringc.so.0.1.0	
-	( cd /usr/local/lib && sudo ln -sf libstringc.so.0.1.0 libstringc.so.0.1 )
-	( cd /usr/local/lib && sudo ln -sf libstringc.so.0.1.0 libstringc.so.0   )
-	( cd /usr/local/lib && sudo ln -sf libstringc.so.0.1.0 libstringc.so     )
+	cp libstringc.so /usr/local/lib/libstringc.so.0.1.0
+	chmod 0755       /usr/local/lib/libstringc.so.0.1.0	
+	( cd /usr/local/lib && ln -sf libstringc.so.0.1.0 libstringc.so.0.1 )
+	( cd /usr/local/lib && ln -sf libstringc.so.0.1.0 libstringc.so.0   )
+	( cd /usr/local/lib && ln -sf libstringc.so.0.1.0 libstringc.so     )
 endif
+	cp -rf ../stringc /usr/local/include
 
 endif
