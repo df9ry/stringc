@@ -18,52 +18,47 @@ ifeq (,$(filter _%,$(notdir $(CURDIR))))
 include target.mk
 else
 
-VPATH = $(SRCDIR)
-
+VPATH    = $(SRCDIR)
 CFLAGS   =  -Wall -Werror -g -ggdb -fpic -fmessage-length=0 -pthread
 
-LDFLAGS  =  -Wall -Werror -g -ggdb -fpic -fmessage-length=0 -pthread
-			
 OBJS     =  stringc.o
-			
 LIBS     =  -lpthread
+TARGET   =  libstringc.$(SOEXT)
 
-TARGET   =  libstringc.so
-
-$(TARGET):  $(OBJS)
-	$(CC) -shared $(LDFLAGS) -o $(TARGET) $(OBJS) $(LIBS)
-	
-%.o: %.c $(SRCDIR)
-	$(CC) $(CFLAGS) -c $<	
-	
-all: $(TARGET) test
+all: $(TARGET)
 	echo "Build OK"
 
+$(TARGET): $(OBJS)
+	$(CC) -shared $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBS)
+	
+%.o: %.c $(SRCDIR)
+	$(CC) -shared $(CFLAGS) -c $<	
+	
 doc:
 	doxygen $(SRCDIR)/doxygen.conf
-	( cd $(SRCDIR)/_Documentation/latex && make )
-	cp $(SRCDIR)/_Documentation/latex/refman.pdf \
-		$(SRCDIR)/_Documentation/stringc.pdf
+	( cd $(SRCDIR)/$(DOCDIR)/latex && make )
+	cp $(SRCDIR)/$(DOCDIR)/latex/refman.pdf \
+		$(SRCDIR)/$(DOCDIR)/stringc.pdf
 
 test: $(TARGET)
-	$(CC) -Wall -Werror -g -ggdb -fmessage-length=0 -o stringc_test \
+	$(CC) $(CFLAGS) \
+		-o stringc_test \
 		-L$(SRCDIR)/_Debug \
 		-lstringc \
 		$(SRCDIR)/stringc_test.c
 	sh -c "LD_LIBRARY_PATH=./ ./stringc_test"
 	
-install: libstringc.so test doc
+install: $(TARGET)
+ifeq ($(OS),Cygwin)
+	cp $(TARGET) /usr/local/lib
+	cp -rf ../stringc /usr/local/include
+else
 	sudo cp libstringc.so /usr/local/lib/libstringc.so.0.1.0
 	sudo chown root:staff /usr/local/lib/libstringc.so.0.1.0	
 	sudo chmod 0755       /usr/local/lib/libstringc.so.0.1.0	
 	( cd /usr/local/lib && sudo ln -sf libstringc.so.0.1.0 libstringc.so.0.1 )
 	( cd /usr/local/lib && sudo ln -sf libstringc.so.0.1.0 libstringc.so.0   )
 	( cd /usr/local/lib && sudo ln -sf libstringc.so.0.1.0 libstringc.so     )
-	sudo cp stringc_test /usr/local/bin
-	sudo chown root:staff /usr/local/bin/stringc_test
-	sudo cp -rf $(SRCDIR)/stringc /usr/local/include
-	sudo chown -R root:staff /usr/local/include/stringc
-	sudo mkdir -p /usr/local/doc
-	sudo cp $(SRCDIR)/_Documentation/stringc.pdf /usr/local/doc
-	
+endif
+
 endif
