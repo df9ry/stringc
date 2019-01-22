@@ -52,18 +52,12 @@ test: $(TARGET)
 		$(SRCDIR)/stringc_test.c
 	sh -c "LD_LIBRARY_PATH=./ ./stringc_test"
 	
-install: libstringc.so test doc
-	sudo cp libstringc.so /usr/local/lib/libstringc.so.0.1.0
-	sudo chown root:staff /usr/local/lib/libstringc.so.0.1.0	
-	sudo chmod 0755       /usr/local/lib/libstringc.so.0.1.0	
-	( cd /usr/local/lib && sudo ln -sf libstringc.so.0.1.0 libstringc.so.0.1 )
-	( cd /usr/local/lib && sudo ln -sf libstringc.so.0.1.0 libstringc.so.0   )
-	( cd /usr/local/lib && sudo ln -sf libstringc.so.0.1.0 libstringc.so     )
-	sudo cp stringc_test /usr/local/bin
-	sudo chown root:staff /usr/local/bin/stringc_test
-	sudo cp -rf $(SRCDIR)/stringc /usr/local/include
-	sudo chown -R root:staff /usr/local/include/stringc
-	sudo mkdir -p /usr/local/doc
-	sudo cp $(SRCDIR)/_Documentation/stringc.pdf /usr/local/doc
+install: libstringc.so
+	cp libstringc.so /usr/local/lib/libstringc.so.0.1.0
+	chmod 0755       /usr/local/lib/libstringc.so.0.1.0	
+	( cd /usr/local/lib && ln -sf libstringc.so.0.1.0 libstringc.so.0.1 )
+	( cd /usr/local/lib && ln -sf libstringc.so.0.1.0 libstringc.so.0   )
+	( cd /usr/local/lib && ln -sf libstringc.so.0.1.0 libstringc.so     )
+	cp -rf $(SRCDIR)/stringc /usr/local/include
 	
 endif
