@@ -49,7 +49,7 @@ test: $(TARGET)
 	sh -c "LD_LIBRARY_PATH=./ ./stringc_test"
 	
 install: $(TARGET)
-ifeq ($(OS),Cygwin)
+ifneq ($(OS),Linux)
 	cp $(TARGET) /usr/local/lib
 else
 	cp libstringc.so /usr/local/lib/libstringc.so.0.1.0

@@ -23,10 +23,10 @@ endif
 
 OS := $(shell uname -o)
 export OS
-ifeq ($(OS),Cygwin)
-	SOEXT := dll
-else
+ifeq ($(OS),Linux)
 	SOEXT := so
+else
+	SOEXT := dll
 endif
 export SOEXT
 
