@@ -23,10 +23,10 @@ endif
 
 OS := $(shell uname -o)
 export OS
-ifeq ($(OS),Linux)
-	SOEXT := so
-else
+ifneq ($(OS),GNU/Linux)
 	SOEXT := dll
+else
+	SOEXT := so
 endif
 export SOEXT
 

@@ -24,11 +24,11 @@ static size_t chunk_size(size_t l) {
 	return (((l + 1) / STRINGC_S_BUFFER) + 1) * STRINGC_S_BUFFER;
 }
 
-struct string* string_new_c(char* c)
+string_t* string_new_c(const char* c)
 {
 	if (!c)
 		c = "";
-	struct string* s = malloc(sizeof(struct string));
+	string_t* s = malloc(sizeof(string_t));
 	size_t l = strlen(c);
 	if (l < STRINGC_S_BUFFER) {
 		s->cb = 0;
@@ -41,7 +41,7 @@ struct string* string_new_c(char* c)
 	return s;
 }
 
-void __string_reset(struct string *sc)
+void __string_reset(string_t *sc)
 {
 	assert(sc);
 	if (sc->cb > 0) {
@@ -50,7 +50,7 @@ void __string_reset(struct string *sc)
 	STRING_INIT(*sc);
 }
 
-void string_free(struct string *sc)
+void string_free(string_t *sc)
 {
 	if (!sc)
 		return;
@@ -60,7 +60,7 @@ void string_free(struct string *sc)
 	free(sc);
 }
 
-void string_set_c(struct string* sc, char* c)
+void string_set_c(string_t* sc, const char* c)
 {
 	assert(sc);
 	if (!c) c = "";
@@ -82,7 +82,7 @@ void string_set_c(struct string* sc, char* c)
 	strcpy(sc->str, c);
 }
 
-void string_add_c(struct string* sc, char* c)
+void string_add_c(string_t* sc, const char* c)
 {
 	char *pc;
 
@@ -109,7 +109,7 @@ void string_add_c(struct string* sc, char* c)
 	strcat(sc->pc, c);
 }
 
-void string_add_char(struct string* sc, char ch)
+void string_add_char(string_t* sc, char ch)
 {
 	char buf[2];
 	buf[0] = ch;
@@ -117,11 +117,11 @@ void string_add_char(struct string* sc, char ch)
 	string_add_c(sc, buf);
 }
 
-void string_ltrim(struct string* sc)
+void string_ltrim(string_t* sc)
 {
 	assert(sc);
-	char* s = string_c(sc);
-	char* s_tmp = s;
+	char* s = (char*)string_c(sc);
+	const char* s_tmp = s;
 	size_t l = strlen(s);
 	while (isblank(*s_tmp))	{
 	    ++s_tmp;
@@ -130,10 +130,10 @@ void string_ltrim(struct string* sc)
 	memmove(s, s_tmp, l+1);
 }
 
-void string_rtrim(struct string* sc)
+void string_rtrim(string_t* sc)
 {
 	assert(sc);
-	char* s = string_c(sc);
+	char* s = (char*)string_c(sc);
 	int p = strlen(s) - 1;
 	while ((p > 0) && isblank(s[p-1])) {
 	    --p;
@@ -141,10 +141,10 @@ void string_rtrim(struct string* sc)
 	s[p] = '\0';
 }
 
-void string_range(struct string* sc, int lpos, int rpos)
+void string_range(string_t* sc, int lpos, int rpos)
 {
 	assert(sc);
-	char* s = string_c(sc);
+	char* s = (char*)string_c(sc);
 	int l = strlen(s);
 	if (rpos == 0)
 		rpos = l;

@@ -22,11 +22,11 @@ VPATH    = $(SRCDIR)
 CFLAGS   =  -Wall -Werror -g -ggdb -fpic -fmessage-length=0 -pthread
 
 OBJS     =  stringc.o
-LIBS     =  -lpthread
+LIBS     =  -L/usr/local/lib -lstringc -lpthread
 TARGET   =  libstringc.$(SOEXT)
 
 all: $(TARGET)
-	echo "Build OK"
+	@echo "*** Build stringc OK ***"
 
 $(TARGET): $(OBJS)
 	$(CC) -shared $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBS)
@@ -48,17 +48,17 @@ test: $(TARGET)
 		$(SRCDIR)/stringc_test.c
 	sh -c "LD_LIBRARY_PATH=./ ./stringc_test"
 	
-install: $(TARGET)
-ifneq ($(OS),Linux)
-	cp $(TARGET) /usr/local/lib
+install: all
+ifneq ($(OS),GNU/Linux)
+	cp $(TARGET) /usr/local/lib/
 else
 	cp libstringc.so /usr/local/lib/libstringc.so.0.1.0
 	chmod 0755       /usr/local/lib/libstringc.so.0.1.0	
 	( cd /usr/local/lib && ln -sf libstringc.so.0.1.0 libstringc.so.0.1 )
 	( cd /usr/local/lib && ln -sf libstringc.so.0.1.0 libstringc.so.0   )
 	( cd /usr/local/lib && ln -sf libstringc.so.0.1.0 libstringc.so     )
-	cp -rf $(SRCDIR)/stringc /usr/local/include
-	
+	cp -rf $(SRCDIR)/stringc /usr/local/include/
 endif
+	cp -rf ../stringc /usr/local/include/
 
 endif

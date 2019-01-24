@@ -24,10 +24,9 @@
 int main(int argc, char *argv[]) {
 
 	{
-		struct string s;
+		STRING(s);
 
 		printf("Testing static string functions:\n");
-		STRING_INIT(s);
 		assert(s.cb == 0);
 		assert(string_len(&s) == 0);
 		string_set_c(&s, "1234567890abcdefghijklmnopqrstuvwxyz");
@@ -39,7 +38,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	{
-		struct string *s, *s2;
+		string_t *s, *s2;
 
 		printf("Testing string_new...:\n");
 
@@ -74,7 +73,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	{
-		struct string *s, *s2;
+		string_t *s, *s2;
 		s = string_new();
 		s2 = string_new();
 
@@ -108,7 +107,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	{
-		struct string *s;
+		string_t *s;
 		s = string_new();
 
 		printf("Testing string_add...:\n");
@@ -146,7 +145,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	{
-		struct string *s;
+		string_t *s;
 		s = string_new();
 
 		printf("Testing string_...trim:\n");
@@ -180,7 +179,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	{
-		struct string *s;
+		string_t *s;
 		s = string_new();
 
 		printf("Testing string_range:\n");
