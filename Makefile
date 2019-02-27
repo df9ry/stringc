@@ -22,7 +22,7 @@ VPATH    = $(SRCDIR)
 CFLAGS   =  -Wall -Werror -g -ggdb -fpic -fmessage-length=0 -pthread
 
 OBJS     =  stringc.o
-LIBS     =  -L/usr/local/lib -lstringc -lpthread
+LIBS     =  -lpthread
 TARGET   =  libstringc.$(SOEXT)
 
 all: $(TARGET)
@@ -50,7 +50,7 @@ test: $(TARGET)
 	
 install: all
 ifneq ($(OS),GNU/Linux)
-	cp $(TARGET) /usr/local/lib/
+	cp $(TARGET) $(LOCAL)/$(SOLIB)
 else
 	cp libstringc.so /usr/local/lib/libstringc.so.0.1.0
 	chmod 0755       /usr/local/lib/libstringc.so.0.1.0	
@@ -59,6 +59,6 @@ else
 	( cd /usr/local/lib && ln -sf libstringc.so.0.1.0 libstringc.so     )
 	cp -rf $(SRCDIR)/stringc /usr/local/include/
 endif
-	cp -rf ../stringc /usr/local/include/
+	cp -rf $(SRCDIR)/stringc $(LOCAL)/include/
 
 endif
