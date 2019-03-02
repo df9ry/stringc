@@ -50,7 +50,7 @@ test: $(TARGET)
 	
 install: all
 ifneq ($(OS),GNU/Linux)
-	cp $(TARGET) $(LOCAL)/$(SOLIB)
+	cp $(TARGET) $(LOCAL)/$(SODIR)
 else
 	cp libstringc.so /usr/local/lib/libstringc.so.0.1.0
 	chmod 0755       /usr/local/lib/libstringc.so.0.1.0	
